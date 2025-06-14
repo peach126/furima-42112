@@ -7,6 +7,9 @@ RSpec.describe User, type: :model do
 
   describe 'ユーザー新規登録' do
     context '新規登録できる場合' do
+      it '全ての入力事項が、存在すれば登録できる' do
+        expect(@user).to be_valid
+      end
       it 'passwordが半角英数字混合であれば登録できる' do
         @user.password = '123abc'
         @user.password_confirmation = '123abc'
@@ -105,6 +108,26 @@ RSpec.describe User, type: :model do
       end
       it '名（カナ）が空だと登録できない' do
         @user.first_name_kana = ''
+        @user.valid?
+        expect(@user.errors.full_messages).to include('First name kana is invalid')
+      end
+      it '姓（全角）に半角文字が含まれている場合は登録できないこと' do
+        @user.family_name = '山ﾀﾞ'
+        @user.valid?
+        expect(@user.errors.full_messages).to include('Family name is invalid')
+      end
+      it '名（全角）に半角文字が含まれている場合は登録できないこと' do
+        @user.first_name = '陸太ﾛｳ'
+        @user.valid?
+        expect(@user.errors.full_messages).to include('First name is invalid')
+      end
+      it '姓（カナ）にカタカナ以外の文字（ひらがなや漢字）が含まれている場合は登録できないこと' do
+        @user.family_name_kana = 'ヤま田'
+        @user.valid?
+        expect(@user.errors.full_messages).to include('Family name kana is invalid')
+      end
+      it '名（カナ）にカタカナ以外の文字（ひらがなや漢字）が含まれている場合は登録できないこと' do
+        @user.first_name_kana = 'リクた郎'
         @user.valid?
         expect(@user.errors.full_messages).to include('First name kana is invalid')
       end
