@@ -27,7 +27,7 @@
 | ----------------- | ---------- | ----------- |
 | item_name         | string     | null: false |
 | item_description  | text       | null: false |
-| item_category_id  | integer    | null: false |
+| category_id       | integer    | null: false |
 | item_condition_id | integer    | null: false |
 | shipping_fee_id   | integer    | null: false |
 | prefecture_id     | integer    | null: false |
