@@ -2,9 +2,10 @@ class ItemsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
   before_action :contributor_confirmation, only: [:edit, :update, :destroy]
   def index
-    # @item = Item.all
-    # @item = Item.includes(:user)
+    @item = Item.all
+    @item = Item.includes(:user)
     # @item = Item.order('created_at DESC')
+    @items = Item.includes(:order).order(created_at: :desc)
   end
 
   def new
@@ -16,7 +17,7 @@ class ItemsController < ApplicationController
     if @item.save
       redirect_to root_path
     else
-      render :new, status: :unprocessable_entity
+      render :new
     end
   end
 
