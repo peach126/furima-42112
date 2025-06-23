@@ -4,8 +4,8 @@ class ItemsController < ApplicationController
   def index
     # @item = Item.all
     # @item = Item.includes(:user)
-    # @item = Item.order('created_at DESC')
-    @items = Item.includes(:order).order(created_at: :desc)
+    @items = Item.order('created_at DESC')
+    # @items = Item.includes(:order).order(created_at: :desc)
   end
 
   def new
