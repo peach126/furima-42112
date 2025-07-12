@@ -3,10 +3,7 @@ class ItemsController < ApplicationController
   before_action :set_item, only: [:show, :edit, :update, :destroy]
   before_action :contributor_confirmation, only: [:edit, :update, :destroy]
   def index
-    # @item = Item.all
-    # @item = Item.includes(:user)
     @items = Item.order('created_at DESC')
-    # @items = Item.includes(:order).order(created_at: :desc)
   end
 
   def new
@@ -53,6 +50,6 @@ class ItemsController < ApplicationController
   end
 
   def contributor_confirmation
-    redirect_to root_path unless current_user == @item.user
+    redirect_to root_path if current_user != @item.user || @item.order.present?
   end
 end
